@@ -15,21 +15,19 @@ const newnums = nums.forEach(element =>
 console.log(sum);
 const array = nums.map(x => x * 2);
 console.log(array);
+const array1 = nums.map(x => x);
+const array2 = nums.map(x => x);
 
-const max = nums.reduce ( (a,b) => a > b ? a : b)
+const max = array1.reduce((a,b) =>
+    {
+        return a > b ? a : b;
+    }, 0 
+)
 console.log(max);
 
-const min = nums.reduce ( (a,b) => a < b ? a : b)
+const min = array2.reduce((a,b) => 
+    { 
+        return a > b ? b : a; 
+    } , 0
+)
 console.log(min);
-// let max = 0;
-// let min = 0;
-// for (let i = 0; i < nums.length; i++) {
-//     for (let j = i; j < nums.length; j++) {
-//         if (nums[i] > nums[j]) {
-//             max = nums[i]; min = nums[j];
-//         }
-//         else {max = nums[j]; min = nums[i];}
-//     }   
-// }
-// console.log("Max = " + max);
-// console.log("Min = " + min);
