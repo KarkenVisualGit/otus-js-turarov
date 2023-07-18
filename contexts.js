@@ -14,4 +14,4 @@ const person = {
 person.sayHi();
 person.changeName('Sam');
 console.log(person.name);
-person.sayName();
+person.sayName(); //undefined
