@@ -3,8 +3,8 @@ const request = new Promise ((resolve, reject) => {
 
     setTimeout(() => {
         console.log('response');
-        // resolve();
-        reject();
+        resolve();
+        // reject();
     }, 2000);
 });
 

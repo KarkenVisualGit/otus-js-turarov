@@ -11,10 +11,12 @@ const id = setTimeout(() => {
     
 }, 1000);
 clearTimeout (id);
+
 function logger() {
     console.log('now');
 }
 setTimeout(logger, 1000);
+
 function sum(a,b) {
     return a+b;
 }
@@ -35,6 +37,7 @@ function counter (from,to) {
     }, 1000);
 }
 counter(4, 8);
+
 const request = (cb) => {
     console.log('request');
     cb({text: 'Error'});
