@@ -9,10 +9,19 @@ Button.addEventListener('click', hidden);
     const Button = document.querySelector('.btn');
         if( text === '' ) {
             Button.hidden = true;
-            // Button.removeEventListener('click', hidden);
         }
-        
+        Button.removeEventListener('click', hidden);
+        Button.addEventListener('click', showButton);
     }
+
+    function showButton() {
+        const Button = document.querySelector('.btn');
+        Button.hidden = false;
+
+        Button.removeEventListener('click', showButton);
+        Button.addEventListener('click', hidden);
+    }
+
 Button.addEventListener('click', buttonClick);
     function buttonClick() {
         const text = getInputText();
