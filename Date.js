@@ -32,7 +32,7 @@ console.log(diff.toFixed(0));
 console.log(getWeekDay(inputDate));
 
 function formatDate(date) {
-    let day = makeTwoDigit(date.getDate());
+    let day = makeTwoDigit(date.getDay());
     let month = makeTwoDigit(date.getMonth() + 1);
     let year = date.getFullYear();
     let hours = makeTwoDigit(date.getHours());
