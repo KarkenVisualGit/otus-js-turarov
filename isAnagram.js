@@ -5,8 +5,8 @@ let original1 = [];
 
 var isAnagram = function(test, original) {
 
-  console.log(this.test = test.toString().toLowerCase().split('').sort());
-  console.log(this.original = original.toString().toLowerCase().split('').sort());
+  this.test = test.toString().toLowerCase().split('').sort();
+  this.original = original.toString().toLowerCase().split('').sort();
     
   return this.test.length == this.original.length && this.test.every((v,i)=>v === this.original[i]);
     // (isAnagram("foefet", "toffee")
