@@ -1,4 +1,4 @@
-function accum(s) {
+export function accum(s) {
 	// your code
 }
 
