@@ -1,10 +1,33 @@
 export function accum(s) {
-	if (!String.prototype.repeat) {       
-        String.prototype.repeat = function(n) {
-          // повторить строку n раз
-          return new Array(n + 1).join(this);
-        };
-      }// your code
-}
+	let s = s.toString().split('')
 
-console.log( "La".repeat(3) ); // LaLaLa
+	const iterator = array1.keys();
+
+	for (const key of iterator) {
+		console.log(key);
+	}
+
+	function addElem(propertyName) {
+		// const iterator = [...propertyName].values();
+		// for (const key of iterator) {
+		// }
+		function upperCase(match) {
+			return match.toUpperCase() + '-';
+		}
+		// console.log(match.toLowerCase().repeat(f() => );
+
+		return propertyName.replace(/[A-Za..z].+/g, upperCase);
+	}
+}
+addElem("abcd");
+
+console.log('abcd'.split('').map((a, i) => a.repeat(i + 1)).join('-'));
+
+if (!String.prototype.repeat) {
+	String.prototype.repeat = function (n) {
+		// повторить строку n раз
+		return new Array(n + 1).join(this);
+	};
+}// your code
+
+console.log("La".repeat(3)); // LaLaLa
