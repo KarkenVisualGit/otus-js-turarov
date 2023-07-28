@@ -21,7 +21,7 @@ export function accum(s) {
 }
 addElem("abcd");
 
-console.log('abcd'.split('').map((a, i) => a.repeat(i + 1)).join('-'));
+console.log('ZpglnRxqenU'.split('').map((a, i) => a.toUpperCase() + a.toLowerCase().repeat(i)).join('-'));
 
 if (!String.prototype.repeat) {
 	String.prototype.repeat = function (n) {
