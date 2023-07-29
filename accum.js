@@ -18,8 +18,8 @@ export function accum(s) {
 
 		return propertyName.replace(/[A-Za..z].+/g, upperCase);
 	}
+	addElem("abcd");
 }
-addElem("abcd");
 
 console.log('ZpglnRxqenU'.split('').map((a, i) => a.toUpperCase() + a.toLowerCase().repeat(i)).join('-'));
 
