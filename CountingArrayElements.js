@@ -31,3 +31,11 @@ const occurrences = ['a', 'a', 'b', 'b', 'b'].reduce(function (acc, curr) {
   
   console.log(occurrences);
   console.log(count(['james', 'james', 'john']));
+
+let arr1 = [5, 5, 5, 2, 2, 2, 2, 2, 9, 4]
+
+const map = arr1.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+
+console.info([...map.keys()])
+console.info([...map.values()])
+console.info([...map.entries()])
