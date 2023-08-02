@@ -1,33 +1,44 @@
-let suspectInfo = {
-    'James': ['Jacob', 'Bill', 'Lucas'],
-    'Johnny': ['David', 'Kyle', 'Lucas'],
-    'Peter': ['Lucy', 'Kyle']
-};
-let dead = ['Lucas', 'Bill']
-const victims = [];
-for (let key in suspectInfo) {
-    if (suspectInfo.hasOwnProperty(key)) {
-        victims.push(suspectInfo[key])
-    }
-}
-let k = 0;
-for (var i = 0; i < victims.length; i++) {
+// let suspectInfo = {
+//     'James': ['Jacob', 'Bill', 'Lucas'],
+//     'Johnny': ['David', 'Kyle', 'Lucas'],
+//     'Peter': ['Lucy', 'Kyle']
+// };
+// let dead = ['Lucas', 'Bill']
+// const victims = [];
+// for (let key in suspectInfo) {
+//     if (suspectInfo.hasOwnProperty(key)) {
+//         victims.push(suspectInfo[key])
+//     }
+// }
+// let suspect = Object.keys(suspectInfo);
+// let k = 0;
+// for (var i = 0; i < victims.length; i++) {
 
-    for (var j = 0; j < dead.length; j++) {
+//     for (var j = 0; j < dead.length; j++) {
 
-        if (victims[i][0].includes(dead[j])) { k++ }
+//         if (victims[i][0].includes(dead[j])) { k++ }
 
-    };
+//     };
 
-};
+// };
 
-for (let i of victims) {
-    for (let j of i) {
-      if (victims[j] === dead[i])
-        {
-          result = i;
+// for (let i of victims) {
+//     for (let j of i) {
+//       if (victims[j] === dead[i])
+//         {
+//           result = i;
+//         }
+//     }
+//   }
+
+// alert(k);
+
+function killer(suspectInfo, dead) {
+    let suspects = Object.keys(suspectInfo)
+    for (suspect of suspects) {
+        if (dead.every(person => suspectInfo[suspect].includes(person))) {
+            return suspect;
         }
     }
-  }
-
-alert(k);
+}
+console.log(killer({ 'Brad': [], 'Megan': ['Ben', 'Kevin'], 'Finn': [] }, ['Ben']));
