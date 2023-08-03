@@ -39,3 +39,34 @@ const map = arr1.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map()
 console.info([...map.keys()])
 console.info([...map.values()])
 console.info([...map.entries()])
+
+function count(array){
+  var names = {};
+  array.forEach(item => {
+    names[item] = (names[item] || 0) + 1;
+  });
+  return names;
+}
+console.log(count(['james', 'james', 'john']));
+
+function count(array){
+  let counter = {};
+  
+  for (let i=0; i<array.length; ++i)
+  {
+    if (counter[array[i]] == undefined)
+      counter[array[i]] = 1;
+    else
+      counter[array[i]] ++;
+  }
+  
+  return counter;
+}
+console.log(count(['james', 'james', 'john']));
+
+function count(array){
+  return array.reduce(function (stack, value) {
+    return stack[value] ? stack[value]++ : stack[value] = 1, stack;
+  }, {});
+}
+console.log(count(['james', 'james', 'john']));
