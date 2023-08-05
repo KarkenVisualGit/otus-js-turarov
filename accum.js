@@ -1,25 +1,29 @@
-export function accum(s) {
-	let s = s.toString().split('')
+let s = '';
+function accum(string) {
 
-	const iterator = array1.keys();
+	return string.toString().split('')
+		.map((a, i) => a.toUpperCase() + a.toLowerCase().repeat(i))
+		.join('-');
 
-	for (const key of iterator) {
-		console.log(key);
-	}
-
-	function addElem(propertyName) {
-		// const iterator = [...propertyName].values();
-		// for (const key of iterator) {
-		// }
-		function upperCase(match) {
-			return match.toUpperCase() + '-';
-		}
-		// console.log(match.toLowerCase().repeat(f() => );
-
-		return propertyName.replace(/[A-Za..z].+/g, upperCase);
-	}
-	addElem("abcd");
 }
+console.log(accum("ZpglnRxqenU"));
+console.log(accum("HbideVbxncC"));
+console.log(typeof (accum));
+console.log(accum instanceof Function);
 
-console.log('ZpglnRxqenU'.split('').map((a, i) => a.toUpperCase() + a.toLowerCase().repeat(i)).join('-'));
+// 	function addElem(propertyName) {
+// 		// const iterator = [...propertyName].values();
+// 		// for (const key of iterator) {
+// 		// }
+// 		function upperCase(match) {
+// 			return match.toUpperCase() + '-';
+// 		}
+// 		// console.log(match.toLowerCase().repeat(f() => );
+
+// 		return propertyName.replace(/[A-Za..z].+/g, upperCase);
+// 	}
+// 	addElem("abcd");
+// }
+
+// console.log('ZpglnRxqenU'.split('').map((a, i) => a.toUpperCase() + a.toLowerCase().repeat(i)).join('-'));
 
