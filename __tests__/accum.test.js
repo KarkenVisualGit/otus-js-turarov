@@ -1,5 +1,5 @@
-
-const accum =  require("./accum.js");
+// import accum from '../src/accum.js';
+const accum =  require("../src/accum.js");
 
 describe("accum", () => {
     it("accum is a function", () => {
