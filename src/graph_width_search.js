@@ -20,6 +20,7 @@ function breadthSearch(graph, start, end) {
             queue = [...queue, ...graph[current]];
         }
     }
+    return false;
 }
 
-console.log(breadthSearch(graph, 'a', 'g'))
+console.log(breadthSearch(graph, 'a', 'k'))
