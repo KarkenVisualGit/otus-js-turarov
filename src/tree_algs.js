@@ -67,4 +67,5 @@ const iteration = (tree) => {
     return sum
 }
 
-console.log(iteration(tree))
+console.log(iteration(tree));
+console.log(recursive(tree));
