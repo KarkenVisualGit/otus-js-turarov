@@ -1,1 +1,55 @@
 @import "./reset.css";
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,regular,500,700);
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 15px 50px;
+    
+    background: linear-gradient(92.7deg, #4CBBC4 0%, #3cd3ad  100%), #232323;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-family: 'Ubuntu';
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 52px;
+    text-align: center;
+    color: #ffffff;
+    font-style: normal;
+}
+
+.form {
+    display: flex; 
+    height: 54px;
+    background: #ffffff;
+    border-radius: 6px;
+
+}
+
+.input {
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1;
+    color: #000000;
+}
+
+.btn {
+    height: 54px;
+    width: 145px;
+    border-radius: 6px;
+    background: #ef0303;
+
+    
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+    color: #ffffff;
+
+}
