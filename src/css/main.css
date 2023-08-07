@@ -9,6 +9,11 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+html,
+body {
+    min-height: 100vh;
+}
+
 .header {
     width: 100%;
 
@@ -16,8 +21,8 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 40px 15px 50px;
-    
-    background: linear-gradient(92.7deg, #4CBBC4 0%, #3cd3ad  100%), #232323;
+
+    background: linear-gradient(92.7deg, #4CBBC4 0%, #3cd3ad 100%), #232323;
 }
 
 .title {
@@ -56,7 +61,7 @@ body {
     border-radius: 6px;
     background: #ef0303;
 
-    
+
     font-weight: 500;
     font-size: 20px;
     line-height: 1;
@@ -72,6 +77,9 @@ body {
 
 .card {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
     padding: 30px;
     width: 360px;
     background-color: #ffffff;
@@ -99,29 +107,62 @@ body {
     font-weight: 500;
     font-size: 28px;
     line-height: 33px;
-    color:#000000;
+    color: #000000;
 }
 
 .card-city span {
     display: inline-block;
+    vertical-align: text-top;
     padding: 3px 5px;
-    background:#e5464f;
+    background: #e5464f;
     border-radius: 6px;
-
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
 
 }
 
 .card-weather {
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-value {
+    font-family: 'Ubuntu';
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 1;
 
 }
-.card-img {
 
+.card-value sup {
+    font-size: 50%;
+}
+
+.card-img {
+    
 }
 
 .card-desc {
-    
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.footer {
+    width: 100%;
+    padding: 8px 15px;
+
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    background: #e3f1ee;
+    color: #2e7695;
+
+}
+
+.footer a {
+    color: #2e7695;
+    text-decoration: none;
 }
