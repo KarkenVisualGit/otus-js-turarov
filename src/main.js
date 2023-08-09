@@ -23,19 +23,25 @@ form.onsubmit = function (e) {
 
     const url = `http://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`;
 
+    function removecard() {
+        const prevcard = document.querySelector('.card');
+        if (prevcard) prevcard.remove();
+    }   
+    showError(data.error.message);
+    function showError(errorNessage) {
+        const html = `<div class="card">${errorNessag}</div>`;
+
+        header.insertAdjacentHTML('afterend', html);
+    }
+
     fetch(url)
-    .then((response) => {
-        return response.json()
-    })
+        .then((response) => {
+            return response.json()
+        })
         .then((data) => {
 
             if (data.error) {
-                const prevcard = document.querySelector('.card');
-                if (prevcard) prevcard.remove();
-
-                const html = `<div class="card">${data.error.message}</div>`;
-
-                header.insertAdjacentHTML('afterend', html);
+                removecard();
 
             } else {
                 const prevcard = document.querySelector('.card');
