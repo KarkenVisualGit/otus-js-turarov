@@ -9,13 +9,13 @@ const form = document.querySelector('#form');
 const input = document.querySelector('#inputCity');
 let arrayCard = [];
 
-function showCard({ name, country, temp, condition }) {
+function showCard({ name, country, temp, condition, imgPath}) {
     const html = `<div class="card">
     <h2 class="card-city">${name}<span>${country}</span></h2>
 
     <div class="card-weather">
         <div class="card-value">${temp}<sup>°C</sup></div>
-        <img class="card-img" src="./images/4.png" alt="weather">
+        <img class="card-img" src="${imgPath}" alt="weather">
     </div>
 
     <div class="card-desc">${condition}</div>
@@ -69,15 +69,20 @@ form.onsubmit = async function (e) {
         const info = conditions.find((element) => element.code === data.current.condition.code);
         console.log(info);
         console.log(info.languages[23].day_text);
-
-        const condition = data.current.is_day ? info.languages[23].day_text : info.languages[23].night_text;
-        const fileName = data.current.is_day ? info.day : info.night;
+        
+        const fileName = (data.current.is_day ? info.day : info.night) + '.png';
+        const filePath = './images/' + (data.current.is_day ? 'day' : 'night') + `/${fileName}`;
+        
+        
+        console.log(fileName);
+        console.log(filePath);
 
         const weatherData = {
             name: data.location.name,
             country: data.location.country,
             temp: data.current.temp_c,
-            condition: condition
+            condition: data.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
+            imgPath: filePath
         };
 
         showCard(weatherData);
