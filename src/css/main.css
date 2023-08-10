@@ -142,7 +142,9 @@ body {
 }
 
 .card-img {
-    
+    width:159px; 
+    height:159px;
+    object-fit: contain;
 }
 
 .card-desc {
