@@ -51,7 +51,7 @@ function showError(errorNessage) {
   header.insertAdjacentHTML('afterend', html);
 }
 async function getWeather(city) {
-  const url = `http://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`;
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`;
   const response = await fetch(url);
   const data = await response.json();
   return data;
