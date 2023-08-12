@@ -8,7 +8,7 @@ module.exports = {
     mode: 'production',
     target:'browserslist',
     entry: {
-        main: path.resolve(__dirname, './src/index.js'),
+        main: path.resolve(__dirname, './src/main.js'),
     },
     output: {
         path: path.resolve(__dirname, './prod'),
@@ -21,7 +21,7 @@ module.exports = {
             filename: 'index.html', // название выходного файла
         }),
         new MiniCss({
-            filename:"style.css",
+            filename:"main.css",
         }),
     ],
     module: {
@@ -48,8 +48,19 @@ module.exports = {
                 use: 'html-loader'
             },
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: [
+                        ['@babel/preset-env', { targets: "defaults" }]
+                      ]
+                    }
+            }},
+            {
                 test: /\.(jpe?g|png|gif|svg|webp)$/i,
-                type: 'asset/resource',
+                type: 'asset/inline',
                 generator:  {
                     filename: 'images/[name]-[contenthash][ext]',
                 }
