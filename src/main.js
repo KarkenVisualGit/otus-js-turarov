@@ -1,4 +1,4 @@
-import "./css/main.css";
+// import "./css/main.css";
 
 // const query = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey1}';
 

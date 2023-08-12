@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCss = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: 'production',
     target:'browserslist',
     entry: {
-        main: path.resolve(__dirname, './src/main.js'),
+        main: path.resolve(__dirname, './src/index.js'),
     },
     output: {
         path: path.resolve(__dirname, './prod'),
@@ -23,6 +24,14 @@ module.exports = {
         new MiniCss({
             filename:"main.css",
         }),
+        new CopyWebpackPlugin({
+            patterns: [
+              {
+                from: path.resolve(__dirname, './src/images'),
+                to: path.resolve(__dirname, './prod/images')
+              },
+            ]
+          })
     ],
     module: {
         rules: [
