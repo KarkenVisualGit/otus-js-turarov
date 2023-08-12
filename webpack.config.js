@@ -7,7 +7,7 @@ module.exports = {
     target:'web',
     devtool:'source-map',
     entry: {
-        main: path.resolve(__dirname, './src/main.js'),
+        main: path.resolve(__dirname, './src/index.js'),
     },
     output: {
         path: path.resolve(__dirname, './dist'),
