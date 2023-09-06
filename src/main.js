@@ -1,4 +1,12 @@
+import "./css/main.css";
 
+// const query = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey1}';
+
+//const query2 = 'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API key}';
+
+// http://api.weatherapi.com/v1/forecast.json?key=${API key}&days=7
+
+// const query3 = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey2}';
 import conditions from './conditions.js';
 
 
@@ -71,7 +79,7 @@ form.onsubmit = async function (e) {
         console.log(info.languages[23].day_text);
         
         const fileName = (data.current.is_day ? info.day : info.night) + '.png';
-        const filePath = './images/' + (data.current.is_day ? 'day' : 'night') + `/${fileName}`;
+        const filePath = './images/' + (data.current.is_day ? 'day' + `${fileName}` : 'night' + `${fileName}`) ;
         
         
         console.log(fileName);
