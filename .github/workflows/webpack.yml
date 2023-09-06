@@ -32,7 +32,7 @@ jobs:
         npm install
         npm run build-prod
         
-    - name: Deploy
+    - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: prod # The folder the action should deploy.

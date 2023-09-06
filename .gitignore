@@ -3,8 +3,6 @@
 .ssh/
 coverage
 node_modules
-dist/*
-prod/*
 
 # OS generated files
 .DS_Store
