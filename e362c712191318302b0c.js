@@ -1,12 +1,6 @@
 // import "./css/main.css";
+// https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}
 
-// const query = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey1}';
-
-//const query2 = 'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API key}';
-
-// http://api.weatherapi.com/v1/forecast.json?key=${API key}&days=7
-
-// const query3 = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey2}';
 import conditions from './conditions.js';
 const apikey = 'a6a19c057af84c20ac380535230808';
 const header = document.querySelector('.header');
@@ -21,6 +15,11 @@ function showCard(_ref) {
     condition,
     imgPath
   } = _ref;
+  arrayCard.push(name);
+  if (arrayCard.length > 10) {
+    arrayCard.pop();
+    removecard();
+  }
   const html = `<div class="card">
     <h2 class="card-city">${name}<span>${country}</span></h2>
 
@@ -33,18 +32,10 @@ function showCard(_ref) {
 
      </div>`;
   header.insertAdjacentHTML('afterend', html);
-
-  // arrayCard.push(name);
-  // if (arrayCard.length > 3) {
-  //     arrayCard.shift();
-  //     removecard();
-
-  // }
 }
-
 function removecard() {
-  const prevcard = document.querySelector('.card');
-  if (prevcard) prevcard.remove();
+  const prevcard = document.getElementsByClassName('card');
+  if (prevcard) prevcard[prevcard.length - 1].remove();
 }
 function showError(errorNessage) {
   const html = `<div class="card">${errorNessage}</div>`;
@@ -64,8 +55,8 @@ form.onsubmit = async function (e) {
     removecard();
     showError(data.error.message);
   } else {
-    removecard();
-    const response = await fetch('./condition.json');
+    // const response = await fetch('./condition.json');
+
     const info = conditions.find(element => element.code === data.current.condition.code);
     console.log(info);
     console.log(info.languages[23].day_text);
@@ -82,12 +73,4 @@ form.onsubmit = async function (e) {
     };
     showCard(weatherData);
   }
-
-  // fetch(url)
-  //     .then((response) => {
-  //         return response.json()
-  //     })
-  //     .then((data) => {
-  //         console.log(data);
-  //     })
 };
