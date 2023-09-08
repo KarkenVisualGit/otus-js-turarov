@@ -1,12 +1,6 @@
 // import "./css/main.css";
+// https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}
 
-// const query = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey1}';
-
-//const query2 = 'http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API key}';
-
-// http://api.weatherapi.com/v1/forecast.json?key=${API key}&days=7
-
-// const query3 = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${apikey2}';
 import conditions from './conditions.js';
 
 
@@ -18,6 +12,12 @@ const input = document.querySelector('#inputCity');
 let arrayCard = [];
 
 function showCard({ name, country, temp, condition, imgPath}) {
+    arrayCard.push(name);
+
+    if (arrayCard.length > 10) {
+        arrayCard.pop();
+        removecard();
+    }
     const html = `<div class="card">
     <h2 class="card-city">${name}<span>${country}</span></h2>
 
@@ -32,17 +32,10 @@ function showCard({ name, country, temp, condition, imgPath}) {
 
     header.insertAdjacentHTML('afterend', html);
 
-    // arrayCard.push(name);
-    // if (arrayCard.length > 3) {
-    //     arrayCard.shift();
-    //     removecard();
-
-    // }
-
 }
 function removecard() {
-    const prevcard = document.querySelector('.card');
-    if (prevcard) prevcard.remove();
+    const prevcard = document.getElementsByClassName('card');
+    if (prevcard) prevcard[prevcard.length - 1].remove();
 }
 
 function showError(errorNessage) {
@@ -64,15 +57,13 @@ form.onsubmit = async function (e) {
     e.preventDefault();
     let city = input.value.trim();
     const data = await getWeather(city);
-
+    
     if (data.error) {
         removecard();
         showError(data.error.message);
 
     } else {
-        removecard();
-
-        const response = await fetch('./condition.json');
+        // const response = await fetch('./condition.json');
 
         const info = conditions.find((element) => element.code === data.current.condition.code);
         console.log(info);
@@ -93,14 +84,8 @@ form.onsubmit = async function (e) {
             imgPath: filePath
         };
 
+        
         showCard(weatherData);
     }
 
-    // fetch(url)
-    //     .then((response) => {
-    //         return response.json()
-    //     })
-    //     .then((data) => {
-    //         console.log(data);
-    //     })
 }
