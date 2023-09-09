@@ -9656,9 +9656,11 @@ const conditions = [{
 ;// CONCATENATED MODULE: ./src/main.js
 // import "./css/main.css";
 // https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}
+//`https://maps.googleapis.com/maps/api/staticmap?center=${city}&zoom=12&size=400x400&key=${APIKEY}`
 
 
 const apikey = 'a6a19c057af84c20ac380535230808';
+const APIKEY = 'AIzaSyBXtNPlUvaj6wQD1bxS0vBd-RvUMMbvdZQ';
 const header = document.querySelector('.header');
 const main_form = document.querySelector('#form');
 const input = document.querySelector('#inputCity');
@@ -9676,6 +9678,7 @@ function showCard(_ref) {
     arrayCard.pop();
     removecard();
   }
+  const mapPath = `https://maps.googleapis.com/maps/api/staticmap?center=${name}&zoom=12&size=400x400&key=${APIKEY}`;
   const html = `<div class="card">
     <h2 class="card-city">${name}<span>${country}</span></h2>
 
@@ -9685,7 +9688,9 @@ function showCard(_ref) {
     </div>
 
     <div class="card-desc">${condition}</div>
-
+    <div class="map">
+        <img class="img-map" src="${mapPath}" alt="weathermap">
+    </div>
      </div>`;
   header.insertAdjacentHTML('afterend', html);
 }
