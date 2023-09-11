@@ -119,6 +119,12 @@ body {
     color: #000000;
 }
 
+.cityTable {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .card-city span {
     display: inline-block;
     vertical-align: text-top;

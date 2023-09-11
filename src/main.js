@@ -13,11 +13,11 @@ const header = document.querySelector('.header');
 const form = document.querySelector('#form');
 const input = document.querySelector('#inputCity');
 
-// let arrayCard = [];
 
+// let arrayCard = [];
 function showCard({ name, country, temp, condition, imgPath }) {
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
-    .find(cardCity => cardCity.textContent.includes(name));
+        .find(cardCity => cardCity.textContent.includes(name));
     // arrayCard.push(name);
 
     // if (arrayCard.length > 10) {
@@ -27,23 +27,41 @@ function showCard({ name, country, temp, condition, imgPath }) {
     if (!existingCard) {
         const mapPath = `https://maps.googleapis.com/maps/api/staticmap?center=${name}&zoom=12&size=400x400&key=${APIKEY}`;
         const html = `<div class="card">
-    <h2 class="card-city">${name}<span>${country}</span></h2>
+        <h2 class="card-city">${name}<span>${country}</span></h2>
 
-    <div class="card-weather">
-        <div class="card-value">${temp}<sup>°C</sup></div>
-        <img class="card-img" src="${imgPath}" alt="weather">
-    </div>
+        <div class="card-weather">
+            <div class="card-value">${temp}<sup>°C</sup></div>
+            <img class="card-img" src="${imgPath}" alt="weather">
+        </div>
 
-    <div class="card-desc">${condition}</div>
-    <div class="map">
-        <img class="img-map" src="${mapPath}" alt="weathermap">
+        <div class="card-desc">${condition}</div>
+        <div class="map">
+            <img class="img-map" src="${mapPath}" alt="weathermap">
+        </div>
     </div>
-     </div>`;
+    <div class="cityTable">
+        
+    </div>`;
 
         header.insertAdjacentHTML('afterend', html);
+        const table = `<div class="cityTable">
+        </div>`;
+        const cityTable = document.querySelector('.cityTable');
+        const tableRow = document.createElement('tr');
+        tableRow.innerHTML = `<td><a href="javascript:void(0);">${name}</a></td>`;
+        header.insertAdjacentHTML('afterend', table);
+        cityTable.appendChild(tableRow);
+
+        // Добавляем обработчик события для клика на городе
+        tableRow.addEventListener('click', () => {
+            // Вызываем функцию для отображения погоды для выбранного города
+            showCardByName(name);
+        });
+
     }
 
 }
+
 function removecard() {
     const prevcard = document.getElementsByClassName('card');
     if (prevcard.length >= 10) prevcard[prevcard.length - 1].remove();
@@ -108,6 +126,31 @@ async function getCurrentLocation() {
 // const openData = await getOpenWeather();
 // const geoData = await getWeather(openData.name);
 getCurrentLocationAndWeather();
+async function showCardByName(cityName) {
+    // Удаляем существующую карточку с таким же городом, если она существует
+    const existingCard = Array.from(document.querySelectorAll('.cityTable'))
+        .find(cardCity => cardCity.textContent.includes(cityName));
+    if (existingCard) {
+        const cardCities = document.querySelectorAll('.cityTable');
+        cardCities.forEach(cardCity => {
+            const parentElement = cardCity.parentElement;
+            if (parentElement) {
+                parentElement.remove();
+            }
+        }); // Удаляем родительский элемент (карточку)
+    }
+
+    // Получаем погоду для выбранного города
+    const data = await getWeather(cityName);
+    const weatherGeoData = {
+        name: data.location.name,
+        country: data.location.country,
+        temp: data.current.temp_c,
+        condition: data.current.condition.text,
+        imgPath: data.current.condition.icon
+    };
+    showCard(weatherGeoData);
+}
 form.onsubmit = async function (e) {
     e.preventDefault();
     let city = input.value.trim();
