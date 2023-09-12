@@ -116,7 +116,7 @@ function saveCityToLocalStorage(city) {
     // Получаем текущий список городов из localStorage
     let cities = getCitiesFromLocalStorage();
     if (cities.length >= 10) {
-        cities = cities.slice(0, 9); // Оставляем только первые 10 элементов
+        cities.shift();
     }
     // Проверяем, что город еще не сохранен
     if (!cities.includes(city)) {
@@ -176,11 +176,12 @@ async function getCurrentLocationAndWeather() {
         // Обрабатываем полученные данные о погоде
         console.log('Current Weather Data:', weatherData);
         const geoData = await getWeather(weatherData.name);
+        const info = conditions.find((element) => element.code === geoData.current.condition.code);
         const weatherGeoData = {
             name: geoData.location.name,
             country: geoData.location.country,
             temp: geoData.current.temp_c,
-            condition: geoData.current.condition.text,
+            condition: geoData.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
             imgPath: geoData.current.condition.icon
         };
         showCard(weatherGeoData);
@@ -203,27 +204,20 @@ async function getCurrentLocation() {
         );
     });
 }
-// const openData = await getOpenWeather();
-// const geoData = await getWeather(openData.name);
+
 getCurrentLocationAndWeather();
 async function showCardByName(cityName) {
     // Удаляем существующую карточку с таким же городом, если она существует
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
         .find(cardCity => cardCity.textContent.includes(cityName));
     if (!existingCard) {
-        // const cardCities = document.querySelectorAll('.card-city');
-        // cardCities.forEach(cardCity => {
-        //     const parentElement = cardCity.element;
-        //     if (parentElement) {
-        //         parentElement.remove();
-        //     }
-        // }); 
         const data = await getWeather(cityName);
+        const info = conditions.find((element) => element.code === data.current.condition.code);
         const weatherGeoData = {
             name: data.location.name,
             country: data.location.country,
             temp: data.current.temp_c,
-            condition: data.current.condition.text,
+            condition: data.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
             imgPath: data.current.condition.icon
         };
         showCard(weatherGeoData);
@@ -236,9 +230,6 @@ async function showCardByName(cityName) {
             }
         }
     }
-
-    // Получаем погоду для выбранного города
-
 }
 form.onsubmit = async function (e) {
     e.preventDefault();
@@ -251,19 +242,15 @@ form.onsubmit = async function (e) {
 
     } else {
         removecard();
-        // const response = await fetch('https://www.weatherapi.com/docs/conditions.json');
         // const response = await fetch('./conditions.js');
         const info = conditions.find((element) => element.code === data.current.condition.code);
         console.log(data);
         console.log(info);
-        // console.log(info.languages[23].day_text);
-
         // const fileName = (data.current.is_day ? info.day : info.night) + '.png';
         // const fileName = data.current.condition.text + '.png';
         // const filePath = './images/' + (data.current.is_day ? 'day' + `${fileName}` : 'night' + `${fileName}`);
         const filePath = data.current.condition.icon;
 
-        // console.log(fileName);
         console.log(filePath);
 
         const weatherData = {
