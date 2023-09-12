@@ -13,45 +13,6 @@ const header = document.querySelector('.header');
 const form = document.querySelector('#form');
 const input = document.querySelector('#inputCity');
 
-
-// let arrayCard = [];
-// function showCard({ name, country, temp, condition, imgPath }) {
-//     const existingCard = Array.from(document.querySelectorAll('.card-city'))
-//         .find(cardCity => cardCity.textContent.includes(name));
-
-//     if (!existingCard) {
-//         const mapPath = `https://maps.googleapis.com/maps/api/staticmap?center=${name}&zoom=12&size=400x400&key=${APIKEY}`;
-//         const html = `<div class="card">
-//         <h2 class="card-city">${name}<span>${country}</span></h2>
-
-//         <div class="card-weather">
-//             <div class="card-value">${temp}<sup>°C</sup></div>
-//             <img class="card-img" src="${imgPath}" alt="weather">
-//         </div>
-
-//         <div class="card-desc">${condition}</div>
-//         <div class="map">
-//             <img class="img-map" src="${mapPath}" alt="weathermap">
-//         </div>
-//     </div>
-//     <div class="cityTable"></div>`;
-
-//         header.insertAdjacentHTML('afterend', html);
-//         const cityTables = document.querySelectorAll('.cityTable');
-//         const tableRow = document.createElement('tr');
-//         tableRow.innerHTML = `<td><a href="javascript:void(0);">${name}</a></td>`;
-//         cityTables.forEach(cityTable => {
-//             cityTable.appendChild(tableRow.cloneNode(true)); // Используйте cloneNode, чтобы создать копию tableRow
-//         });
-
-//         // Добавляем обработчик события для клика на городе
-//         tableRow.addEventListener('click', () => {
-//             // Вызываем функцию для отображения погоды для выбранного города
-//             showCardByName(name);
-//         });
-//     }
-
-// }
 function showCard({ name, country, temp, condition, imgPath }) {
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
         .find(cardCity => cardCity.textContent.includes(name));
