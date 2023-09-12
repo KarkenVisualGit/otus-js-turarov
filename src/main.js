@@ -13,7 +13,7 @@ const header = document.querySelector('.header');
 const form = document.querySelector('#form');
 const input = document.querySelector('#inputCity');
 
-function showCard({ name, country, temp, condition, imgPath }) {
+export function showCard({ name, country, temp, condition, imgPath }) {
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
         .find(cardCity => cardCity.textContent.includes(name));
 
@@ -42,7 +42,7 @@ function showCard({ name, country, temp, condition, imgPath }) {
     }
 }
 
-function updateCityTable() {
+export function updateCityTable() {
     const cityTables = document.querySelectorAll('.cityTable');
     if (cityTables.length > 1) {
         // Проходимся по всем элементам, начиная с второго (индекс 1)
@@ -73,7 +73,7 @@ function updateCityTable() {
     });
 }
 
-function saveCityToLocalStorage(city) {
+export function saveCityToLocalStorage(city) {
     // Получаем текущий список городов из localStorage
     let cities = getCitiesFromLocalStorage();
     if (cities.length >= 10) {
@@ -91,7 +91,7 @@ function saveCityToLocalStorage(city) {
     }
 }
 
-function getCitiesFromLocalStorage() {
+export function getCitiesFromLocalStorage() {
     // Получаем текущий список городов из localStorage
     let citiesJSON = localStorage.getItem('cities');
 
@@ -103,30 +103,30 @@ function getCitiesFromLocalStorage() {
 updateCityTable();
 
 
-function removecard() {
+export function removecard() {
     const prevcard = document.getElementsByClassName('card');
     if (prevcard) prevcard[prevcard.length - 1].remove();
 }
 
-function showError(errorNessage) {
+export function showError(errorNessage) {
     const html = `<div class="card">${errorNessage}</div>`;
 
     header.insertAdjacentHTML('afterend', html);
 }
 
-async function getWeather(city) {
+export async function getWeather(city) {
     const url = `https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
 }
-async function getOpenWeather(latitude, longitude) {
+export async function getOpenWeather(latitude, longitude) {
     const openUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APIOPEN}`;
     const response = await fetch(openUrl);
     const data = await response.json();
     return data;
 }
-async function getCurrentLocationAndWeather() {
+export async function getCurrentLocationAndWeather() {
     try {
         // Получаем текущее местоположение
         const { latitude, longitude } = await getCurrentLocation();
@@ -151,7 +151,7 @@ async function getCurrentLocationAndWeather() {
     }
 }
 // Функция для получения текущего местоположения
-async function getCurrentLocation() {
+export async function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -167,7 +167,7 @@ async function getCurrentLocation() {
 }
 
 getCurrentLocationAndWeather();
-async function showCardByName(cityName) {
+export async function showCardByName(cityName) {
     // Удаляем существующую карточку с таким же городом, если она существует
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
         .find(cardCity => cardCity.textContent.includes(cityName));
