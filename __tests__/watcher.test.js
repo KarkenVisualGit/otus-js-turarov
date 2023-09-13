@@ -1,24 +1,18 @@
 // 'use strict';
 import {
   showCard,
-  // updateCityTable,
+  updateCityTable,
   saveCityToLocalStorage,
   getCitiesFromLocalStorage,
   // removecard,
   // showError,
-  // getWeather,
+  getWeather,
   // getOpenWeather,
   // getCurrentLocationAndWeather,
-  // getCurrentLocation,
-  // showCardByName
+  getCurrentLocation,
+  showCardByName
 } from '../src/main';
-// import { JSDOM } from 'jsdom';
-// const { JSDOM } = require("jsdom");
-// const { JSDOM } = jsdom;
-// import { TextEncoder } from 'text-encoding';
-// global.TextEncoder = TextEncoder;
-// let window;
-// let document;
+global.fetch = require('jest-fetch-mock');
 let header;
 let form;
 let input;
@@ -32,43 +26,21 @@ beforeEach(() => {
         </form>
       </header>
     `;
-  // window = dom.window;
-  // document = window.document;
   header = document.querySelector('.header');
   form = document.querySelector('#form');
   input = document.querySelector('#inputCity');
 });
 
-// afterEach(() => {
-//   document.getElementsByTagName('html')[0].innerHTML = '';
-// });
+afterEach(() => {
+  document.getElementsByTagName('html')[0].innerHTML = '';
+});
 
-test('showCard function', () => {
+test('virtual DOM imitation', () => {
   const titleElement = document.querySelector('.title');
   expect(titleElement).not.toBeNull();
   expect(titleElement.textContent).toBe('Weather forecast');
 });
-test('showCard finds existing card with the same name', () => {
-  const name = 'City1';
-  const country = 'Country1';
-  const cityData = {
-    name: name,
-    country: country,
-    temp: 25,
-    condition: 'Sunny',
-    imgPath: 'path/to/image.jpg',
-  };
-
-  showCard(cityData);
-  const existingCards = Array.from(document.querySelectorAll('.card-city'))
-    .filter(cardCity => cardCity.textContent.includes(name));
-  // Теперь проверяем, что existingCard был правильно найден
-  
-
-  expect(existingCards.length).toBeGreaterThan(0);
-  expect(existingCards.map(card => card.textContent)).toContain(name + country);
-});
-test('showCard creates and inserts a new card if it does not exist', () => {
+test('showCard finds existing card with the same name', async () => {
   document.getElementsByTagName('html')[0].innerHTML = '';
   document.body.innerHTML = `
     <div>
@@ -80,8 +52,38 @@ test('showCard creates and inserts a new card if it does not exist', () => {
       </div>
     </div>
   `;
-  const name = 'City3';
-  const country = 'Country3';
+  const name = 'City1';
+  const country = 'Country1';
+  const cityData = {
+    name: name,
+    country: country,
+    temp: 25,
+    condition: 'Sunny',
+    imgPath: 'path/to/image.jpg',
+  };
+
+  await showCard(cityData);
+  const existingCards = Array.from(document.querySelectorAll('.card-city'))
+    .filter(cardCity => cardCity.textContent.includes(name));
+  // Теперь проверяем, что existingCards был правильно найден
+
+  expect(existingCards.length).toBeGreaterThan(0);
+  expect(existingCards.map(card => card.textContent)).toContain(name + country);
+});
+test('showCard creates and inserts a new card if it does not exist', async () => {
+  // document.getElementsByTagName('html')[0].innerHTML = '';
+  document.body.innerHTML = `
+    <div>
+      <div class="card">
+        <h2 class="card-city">City1<span>Country1</span></h2>
+      </div>
+      <div class="card">
+        <h2 class="card-city">City2<span>Country2</span></h2>
+      </div>
+    </div>
+  `;
+  const name = 'City1';
+  const country = 'Country1';
   const temp = 25;
   const condition = 'Sunny';
   const imgPath = 'path/to/image.jpg';
@@ -92,20 +94,69 @@ test('showCard creates and inserts a new card if it does not exist', () => {
     condition: condition,
     imgPath: imgPath
   };
-  showCard(weatherGeoData);
-  // Вызовите функцию showCard или имитируйте ее вызов здесь, передавая новые данные
-
-  // Проверьте, что новая карточка была создана и вставлена в DOM
+  await showCard(weatherGeoData);
+  // Проверяем, что новая карточка была создана и вставлена в DOM
   const newCard = document.querySelector('.card-city');
   expect(newCard).not.toBeNull();
-  expect(newCard.textContent).toContain(name);
-  expect(newCard.textContent).toContain(country);
-  // Проверьте другие данные карточки, если необходимо
+  expect(newCard.textContent).toContain(name + country);
 });
-// test('updateCityTable function', () => {
-//     // Подготовьте фиктивные элементы DOM и выполните тесты
-//     // Проверьте, что функция updateCityTable внесла изменения в DOM
-// });
+
+// Mock the functions 
+const mockGetCitiesFromLocalStorage = jest.fn();
+const mockShowCardByName = jest.fn();
+
+global.getCitiesFromLocalStorage = mockGetCitiesFromLocalStorage;
+global.showCardByName = mockShowCardByName;
+
+describe('updateCityTable', () => {
+
+  beforeEach(() => {
+    // Mock the localStorage
+
+    document.body.innerHTML = ''; // Clear the DOM before each test
+    jest.clearAllMocks(); // Clear all mocks
+  });
+
+  it('removes additional cityTable elements if there are more than one', async () => {
+    document.body.innerHTML = `
+            <div class="cityTable"></div>
+            <div class="cityTable"></div>
+        `;
+
+    await updateCityTable();
+
+    const cityTables = document.querySelectorAll('.cityTable');
+    expect(cityTables.length).toBe(1);
+  });
+
+  it('updates cityTable with cities from localStorage', async () => {
+    document.body.innerHTML = '<div class="cityTable"></div>';
+
+    mockGetCitiesFromLocalStorage.mockReturnValue(['City1', 'City2']);
+
+    await updateCityTable();
+
+    const cityTables = document.querySelector('.cityTable');
+    const tableRows = cityTables.querySelectorAll('tr'); // get rows directly
+
+    expect(tableRows.length).toBe(2);
+    expect(tableRows[0].innerHTML).toContain('City1');
+    expect(tableRows[1].innerHTML).toContain('City2');
+  });
+
+  it('calls showCardByName when a city is clicked', async () => {
+    document.body.innerHTML = '<div class="cityTable"></div>';
+
+    mockGetCitiesFromLocalStorage.mockReturnValue(['City1']);
+
+    await updateCityTable();
+
+    const cityTableRow = document.querySelector('.cityTable tr');
+    cityTableRow.click();
+
+    expect(mockShowCardByName).toHaveBeenCalledWith('City1');
+  });
+});
 
 test('saveCityToLocalStorage saves a city to localStorage', () => {
   // Исходное состояние localStorage
@@ -115,20 +166,58 @@ test('saveCityToLocalStorage saves a city to localStorage', () => {
   // Вызов функции saveCityToLocalStorage
   saveCityToLocalStorage(cityName);
 
-  // Получите обновленное состояние localStorage после вызова функции
   const updatedCities = getCitiesFromLocalStorage();
 
-  // Убедитесь, что город был сохранен в localStorage
   expect(updatedCities).toContain(cityName);
 
-  // Очистите localStorage после теста (опционально)
+  // Очищаем localStorage после теста
   localStorage.clear();
 
-  // Убедитесь, что исходное состояние восстановлено
+  // Убеждаемся, что исходное состояние восстановлено
   const finalCities = getCitiesFromLocalStorage();
   expect(finalCities).toEqual(initialCities);
 });
 
-// test('getCitiesFromLocalStorage function', () => {
-//     // Проверьте, что функция правильно извлекает города из localStorage
-// });
+// Mocking navigator.geolocation
+global.navigator.geolocation = {
+  getCurrentPosition: jest.fn(),
+};
+
+describe('getCurrentLocation', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('returns coordinates when geolocation is successful', async () => {
+    const mockPosition = {
+      coords: {
+        latitude: 40.7128,
+        longitude: -74.0060,
+      },
+    };
+
+    // Mocking successful geolocation call
+    global.navigator.geolocation.getCurrentPosition.mockImplementationOnce((successCallback) => {
+      successCallback(mockPosition);
+    });
+
+    const location = await getCurrentLocation();
+
+    expect(location).toEqual({
+      latitude: mockPosition.coords.latitude,
+      longitude: mockPosition.coords.longitude,
+    });
+  });
+
+  it('throws an error when geolocation fails', async () => {
+    const mockError = new Error('Geolocation error');
+
+    // Mocking failed geolocation call
+    global.navigator.geolocation.getCurrentPosition.mockImplementationOnce((_, errorCallback) => {
+      errorCallback(mockError);
+    });
+
+    // Using async/await with expect().rejects
+    await expect(getCurrentLocation()).rejects.toThrow(mockError);
+  });
+});

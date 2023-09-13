@@ -10,10 +10,10 @@ const apikey = 'a6a19c057af84c20ac380535230808';
 const APIKEY = 'AIzaSyBXtNPlUvaj6wQD1bxS0vBd-RvUMMbvdZQ';
 const APIOPEN = 'daaf5312cd361ce0a7f658ad53430535';
 const header = document.querySelector('.header');
-const form = document.querySelector('#form');
-const input = document.querySelector('#inputCity');
+const form = document.querySelector('.form');
+const input = document.querySelector('.input');
 
-export function showCard({ name, country, temp, condition, imgPath }) {
+export async function showCard({ name, country, temp, condition, imgPath }) {
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
         .find(cardCity => cardCity.textContent.includes(name));
 
@@ -37,12 +37,12 @@ export function showCard({ name, country, temp, condition, imgPath }) {
       </div>
       <div class="cityTable"></div>`;
 
-        header.insertAdjacentHTML('afterend', html);
-        updateCityTable(); // Обновляем таблицу с городами
+        if(header) header.insertAdjacentHTML('afterend', html);
+        await updateCityTable(); // Обновляем таблицу с городами
     }
 }
 
-export function updateCityTable() {
+export async function updateCityTable() {
     const cityTables = document.querySelectorAll('.cityTable');
     if (cityTables.length > 1) {
         // Проходимся по всем элементам, начиная с второго (индекс 1)
@@ -126,47 +126,47 @@ export async function getOpenWeather(latitude, longitude) {
     const data = await response.json();
     return data;
 }
-// export async function getCurrentLocationAndWeather() {
-//     try {
-//         // Получаем текущее местоположение
-//         const { latitude, longitude } = await getCurrentLocation();
+export async function getCurrentLocationAndWeather() {
+    try {
+        // Получаем текущее местоположение
+        const { latitude, longitude } = await getCurrentLocation();
 
-//         // Получаем данные о погоде для текущего местоположения
-//         const weatherData = await getOpenWeather(latitude, longitude);
+        // Получаем данные о погоде для текущего местоположения
+        const weatherData = await getOpenWeather(latitude, longitude);
 
-//         // Обрабатываем полученные данные о погоде
-//         console.log('Current Weather Data:', weatherData);
-//         const geoData = await getWeather(weatherData.name);
-//         const info = conditions.find((element) => element.code === geoData.current.condition.code);
-//         const weatherGeoData = {
-//             name: geoData.location.name,
-//             country: geoData.location.country,
-//             temp: geoData.current.temp_c,
-//             condition: geoData.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
-//             imgPath: geoData.current.condition.icon
-//         };
-//         showCard(weatherGeoData);
-//     } catch (error) {
-//         console.error('Error fetching weather data:', error);
-//     }
-// }
+        // Обрабатываем полученные данные о погоде
+        console.log('Current Weather Data:', weatherData);
+        const geoData = await getWeather(weatherData.name);
+        const info = conditions.find((element) => element.code === geoData.current.condition.code);
+        const weatherGeoData = {
+            name: geoData.location.name,
+            country: geoData.location.country,
+            temp: geoData.current.temp_c,
+            condition: geoData.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
+            imgPath: geoData.current.condition.icon
+        };
+        showCard(weatherGeoData);
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+    }
+}
 // Функция для получения текущего местоположения
-// export async function getCurrentLocation() {
-//     return new Promise((resolve, reject) => {
-//         navigator.geolocation.getCurrentPosition(
-//             (position) => {
-//                 const latitude = position.coords.latitude;
-//                 const longitude = position.coords.longitude;
-//                 resolve({ latitude, longitude });
-//             },
-//             (error) => {
-//                 reject(error);
-//             }
-//         );
-//     });
-// }
+export async function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                resolve({ latitude, longitude });
+            },
+            (error) => {
+                reject(error);
+            }
+        );
+    });
+}
 
-// getCurrentLocationAndWeather();
+getCurrentLocationAndWeather();
 export async function showCardByName(cityName) {
     // Удаляем существующую карточку с таким же городом, если она существует
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
