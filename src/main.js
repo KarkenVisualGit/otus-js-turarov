@@ -126,47 +126,47 @@ export async function getOpenWeather(latitude, longitude) {
     const data = await response.json();
     return data;
 }
-export async function getCurrentLocationAndWeather() {
-    try {
-        // Получаем текущее местоположение
-        const { latitude, longitude } = await getCurrentLocation();
+// export async function getCurrentLocationAndWeather() {
+//     try {
+//         // Получаем текущее местоположение
+//         const { latitude, longitude } = await getCurrentLocation();
 
-        // Получаем данные о погоде для текущего местоположения
-        const weatherData = await getOpenWeather(latitude, longitude);
+//         // Получаем данные о погоде для текущего местоположения
+//         const weatherData = await getOpenWeather(latitude, longitude);
 
-        // Обрабатываем полученные данные о погоде
-        console.log('Current Weather Data:', weatherData);
-        const geoData = await getWeather(weatherData.name);
-        const info = conditions.find((element) => element.code === geoData.current.condition.code);
-        const weatherGeoData = {
-            name: geoData.location.name,
-            country: geoData.location.country,
-            temp: geoData.current.temp_c,
-            condition: geoData.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
-            imgPath: geoData.current.condition.icon
-        };
-        showCard(weatherGeoData);
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-    }
-}
+//         // Обрабатываем полученные данные о погоде
+//         console.log('Current Weather Data:', weatherData);
+//         const geoData = await getWeather(weatherData.name);
+//         const info = conditions.find((element) => element.code === geoData.current.condition.code);
+//         const weatherGeoData = {
+//             name: geoData.location.name,
+//             country: geoData.location.country,
+//             temp: geoData.current.temp_c,
+//             condition: geoData.current.is_day ? info.languages[23].day_text : info.languages[23].night_text,
+//             imgPath: geoData.current.condition.icon
+//         };
+//         showCard(weatherGeoData);
+//     } catch (error) {
+//         console.error('Error fetching weather data:', error);
+//     }
+// }
 // Функция для получения текущего местоположения
-export async function getCurrentLocation() {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                resolve({ latitude, longitude });
-            },
-            (error) => {
-                reject(error);
-            }
-        );
-    });
-}
+// export async function getCurrentLocation() {
+//     return new Promise((resolve, reject) => {
+//         navigator.geolocation.getCurrentPosition(
+//             (position) => {
+//                 const latitude = position.coords.latitude;
+//                 const longitude = position.coords.longitude;
+//                 resolve({ latitude, longitude });
+//             },
+//             (error) => {
+//                 reject(error);
+//             }
+//         );
+//     });
+// }
 
-getCurrentLocationAndWeather();
+// getCurrentLocationAndWeather();
 export async function showCardByName(cityName) {
     // Удаляем существующую карточку с таким же городом, если она существует
     const existingCard = Array.from(document.querySelectorAll('.card-city'))
@@ -192,7 +192,7 @@ export async function showCardByName(cityName) {
         }
     }
 }
-form.onsubmit = async function (e) {
+if (form) form.onsubmit = async function (e) {
     e.preventDefault();
     let city = input.value.trim();
     const data = await getWeather(city);

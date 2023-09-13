@@ -39,9 +39,9 @@ beforeEach(() => {
   input = document.querySelector('#inputCity');
 });
 
-afterEach(() => {
-  document.getElementsByTagName('html')[0].innerHTML = '';
-});
+// afterEach(() => {
+//   document.getElementsByTagName('html')[0].innerHTML = '';
+// });
 
 test('showCard function', () => {
   const titleElement = document.querySelector('.title');
@@ -49,25 +49,24 @@ test('showCard function', () => {
   expect(titleElement.textContent).toBe('Weather forecast');
 });
 test('showCard finds existing card with the same name', () => {
-  document.getElementsByTagName('html')[0].innerHTML = '';
-  document.body.innerHTML = `
-    <div>
-      <div class="card">
-        <h2 class="card-city">City1<span>Country1</span></h2>
-      </div>
-      <div class="card">
-        <h2 class="card-city">City2<span>Country2</span></h2>
-      </div>
-    </div>
-  `;
   const name = 'City1';
-  // Теперь проверяем, что existingCard был правильно найден
-  const existingCards = Array.from(document.querySelectorAll('.card-city'));
-  const existingCard = Array.from(document.querySelectorAll('.card-city'))
-    .find(cardCity => cardCity.textContent.includes(name));
+  const country = 'Country1';
+  const cityData = {
+    name: name,
+    country: country,
+    temp: 25,
+    condition: 'Sunny',
+    imgPath: 'path/to/image.jpg',
+  };
 
-  expect(existingCard).not.toBeNull();
-  expect(existingCards.map(card => card.textContent)).toContain(name);
+  showCard(cityData);
+  const existingCards = Array.from(document.querySelectorAll('.card-city'))
+    .filter(cardCity => cardCity.textContent.includes(name));
+  // Теперь проверяем, что existingCard был правильно найден
+  
+
+  expect(existingCards.length).toBeGreaterThan(0);
+  expect(existingCards.map(card => card.textContent)).toContain(name + country);
 });
 test('showCard creates and inserts a new card if it does not exist', () => {
   document.getElementsByTagName('html')[0].innerHTML = '';

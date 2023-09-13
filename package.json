@@ -242,6 +242,8 @@
     "autoprefixer": "^10.4.15",
     "babel-jest": "^29.7.0",
     "babel-loader": "^9.1.3",
+    "browser-sync": "^2.29.3",
+    "browser-sync-webpack-plugin": "^2.3.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
@@ -272,7 +274,7 @@
     "build": "webpack --mode=development",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build-dev": "webpack",
+    "build-dev": "webpack --watch",
     "start-dev": "webpack serve",
     "start": "webpack serve --mode development -c webpack.config.js",
     "test": "jest"
