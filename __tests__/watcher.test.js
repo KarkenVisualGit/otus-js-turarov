@@ -27,8 +27,8 @@ beforeEach(() => {
       </header>
     `;
   header = document.querySelector('.header');
-  form = document.querySelector('#form');
-  input = document.querySelector('#inputCity');
+  form = document.querySelector('.form');
+  input = document.querySelector('.input');
 });
 
 afterEach(() => {
@@ -156,6 +156,9 @@ describe('updateCityTable', () => {
     await updateCityTable();
 
     const cityTableRow = document.querySelector('.cityTable tr');
+    if (!cityTableRow) {
+      throw new Error("No city table row found!");
+    }
     cityTableRow.click();
 
     expect(mockShowCardByName).toHaveBeenCalledWith('City1');
@@ -235,102 +238,102 @@ global.getWeather = mockGetWeather;
 global.showCard = mockShowCard;
 
 describe('showCardByName', () => {
-    
-    beforeEach(() => {
-        // Clear the document body
-        document.body.innerHTML = '';
-        // Clear all mocks
-        jest.clearAllMocks();
+
+  beforeEach(() => {
+    // Clear the document body
+    document.body.innerHTML = '';
+    // Clear all mocks
+    jest.clearAllMocks();
+  });
+
+  it('creates a card if no existing card for the city exists', async () => {
+    mockGetWeather.mockResolvedValueOnce({
+      location: {
+        name: 'Test City',
+        country: 'Test Country'
+      },
+      current: {
+        temp_c: 25,
+        is_day: true,
+        condition: {
+          code: 'test_code',
+          icon: 'test_icon.png'
+        }
+      }
     });
 
-    it('creates a card if no existing card for the city exists', async () => {
-        mockGetWeather.mockResolvedValueOnce({
-            location: {
-                name: 'Test City',
-                country: 'Test Country'
-            },
-            current: {
-                temp_c: 25,
-                is_day: true,
-                condition: {
-                    code: 'test_code',
-                    icon: 'test_icon.png'
-                }
-            }
-        });
-        
-        // Assuming you have some conditions data like this:
-        const conditions = [
-            {
-                code: 'test_code',
-                languages: [
-                    // ...other language data
-                    { day_text: 'Sunny', night_text: 'Clear' }  // 23rd index
-                ]
-            }
-        ];
+    // Assuming you have some conditions data like this:
+    const conditions = [
+      {
+        code: 'test_code',
+        languages: [
+          // ...other language data
+          { day_text: 'Sunny', night_text: 'Clear' }  // 23rd index
+        ]
+      }
+    ];
 
-        global.conditions = conditions;  // Set this as global for the test
-        
-        await showCardByName('Test City');
+    global.conditions = conditions;  // Set this as global for the test
 
-        expect(mockGetWeather).toHaveBeenCalledWith('Test City');
-        expect(mockShowCard).toHaveBeenCalledWith({
-            name: 'Test City',
-            country: 'Test Country',
-            temp: 25,
-            condition: 'Sunny',
-            imgPath: 'test_icon.png'
-        });
+    await showCardByName('Test City');
+
+    expect(mockGetWeather).toHaveBeenCalledWith('Test City');
+    expect(mockShowCard).toHaveBeenCalledWith({
+      name: 'Test City',
+      country: 'Test Country',
+      temp: 25,
+      condition: 'Sunny',
+      imgPath: 'test_icon.png'
     });
+  });
 
-    it('does not create a new card if a card for the city already exists', async () => {
-        document.body.innerHTML = '<div class="card-city">Test City</div>';
+  it('does not create a new card if a card for the city already exists', async () => {
+    document.body.innerHTML = '<div class="card-city">Test City</div>';
 
-        await showCardByName('Test City');
+    await showCardByName('Test City');
 
-        expect(mockGetWeather).not.toHaveBeenCalled();
-        expect(mockShowCard).not.toHaveBeenCalled();
-    });
+    expect(mockGetWeather).not.toHaveBeenCalled();
+    expect(mockShowCard).not.toHaveBeenCalled();
+  });
 
-    it('removes additional cards if more than one exists', async () => {
-        document.body.innerHTML = `
+  it('removes additional cards if more than one exists', async () => {
+    document.body.innerHTML = `
             <div class="card"></div>
             <div class="card"></div>
         `;
 
-        mockGetWeather.mockResolvedValueOnce({
-            location: {
-                name: 'Another City',
-                country: 'Test Country'
-            },
-            current: {
-                temp_c: 20,
-                is_day: true,
-                condition: {
-                    code: 'test_code',
-                    icon: 'test_icon.png'
-                }
-            }
-        });
-
-        const conditions = [
-            {
-                code: 'test_code',
-                languages: [
-                    // ...other language data
-                    { day_text: 'Sunny', night_text: 'Clear' }  // 23rd index
-                ]
-            }
-        ];
-
-        global.conditions = conditions;
-
-        await showCardByName('Another City');
-
-        const cityCards = document.querySelectorAll('.card');
-        expect(cityCards.length).toBe(1);
+    mockGetWeather.mockResolvedValueOnce({
+      location: {
+        name: 'Another City',
+        country: 'Test Country'
+      },
+      current: {
+        temp_c: 20,
+        is_day: true,
+        condition: {
+          code: 'test_code',
+          icon: 'test_icon.png'
+        }
+      }
     });
+
+    const conditions = [
+      {
+        code: 'test_code',
+        languages: [
+          // ...other language data
+          { day_text: 'Sunny', night_text: 'Clear' }  // 23rd index
+        ]
+      }
+    ];
+
+    global.conditions = conditions;
+
+    await showCardByName('Another City');
+
+    const cityCards = document.querySelectorAll('.card');
+    expect(cityCards.length).toBe(1);
+  });
 });
 
 // Mocking fetch
@@ -340,29 +343,61 @@ global.APIOPEN = mockAPIOPEN;
 
 describe('getOpenWeather', () => {
 
-    beforeEach(() => {
-        fetch.mockClear();
+  beforeEach(() => {
+    fetch.mockClear();
+  });
+
+  it('fetches data successfully from OpenWeather', async () => {
+    // Mocking a successful response
+    fetch.mockResolvedValueOnce({
+      json: async () => ({
+        result: 'test-result'
+      }),
+      ok: true
     });
 
-    it('fetches data successfully from OpenWeather', async () => {
-        // Mocking a successful response
-        fetch.mockResolvedValueOnce({
-            json: async () => ({
-                result: 'test-result'
-            }),
-            ok: true
-        });
+    const result = await getOpenWeather(10, 20);
 
-        const result = await getOpenWeather(10, 20);
+    expect(fetch).toHaveBeenCalledWith('https://api.openweathermap.org/data/2.5/weather?lat=10&lon=20&appid=' + APIOPEN);
+    expect(result).toEqual({ result: 'test-result' });
+  });
 
-        expect(fetch).toHaveBeenCalledWith('https://api.openweathermap.org/data/2.5/weather?lat=10&lon=20&appid=' + APIOPEN);
-        expect(result).toEqual({ result: 'test-result' });
-    });
+  it('fetches erroneously data from OpenWeather', async () => {
+    // Mocking an erroneous response
+    fetch.mockRejectedValueOnce(new Error('API error'));
 
-    it('fetches erroneously data from OpenWeather', async () => {
-        // Mocking an erroneous response
-        fetch.mockRejectedValueOnce(new Error('API error'));
+    await expect(getOpenWeather(10, 20)).rejects.toThrow('API error');
+  });
+});
 
-        await expect(getOpenWeather(10, 20)).rejects.toThrow('API error');
-    });
+describe('removecard', () => {
+
+  it('removes the last card from the DOM', () => {
+    // Setup: Add three cards to the DOM
+    document.body.innerHTML = `
+      <div class="card">Card 1</div>
+      <div class="card">Card 2</div>
+      <div class="card">Card 3</div>
+    `;
+
+    // Act: Remove the last card
+    removecard();
+
+    // Assert: Ensure the last card (Card 3) has been removed
+    const cards = document.querySelectorAll('.card');
+    expect(cards).toHaveLength(2);
+    expect(cards[1].textContent).toBe('Card 2');
+  });
+
+  it('does nothing if there are no cards', () => {
+    // Setup: Empty body
+    document.body.innerHTML = '';
+
+    // Act: Try to remove a card
+    removecard();
+
+    // Assert: Ensure no cards in the DOM
+    const cards = document.querySelectorAll('.card');
+    expect(cards).toHaveLength(0);
+  });
 });
