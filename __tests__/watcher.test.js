@@ -165,6 +165,30 @@ describe('updateCityTable', () => {
   });
 });
 
+describe('showError', () => {
+
+  // Setting up the DOM before each test
+  beforeEach(() => {
+    document.body.innerHTML = '<header class="header">Header</header>';
+  });
+
+  it('inserts an error message after the header', () => {
+    // Act: Show an error message
+    const testErrorMessage = 'Test Error';
+    showError(testErrorMessage);
+
+    // Assert: Ensure the error message has been correctly inserted
+    const errorCard = document.querySelector('.card');
+    expect(errorCard).toBeTruthy();
+    expect(errorCard.textContent).toBe(testErrorMessage);
+
+    // Assert: Ensure it is inserted after the header
+    const headerNextSibling = document.querySelector('.header').nextElementSibling;
+    expect(headerNextSibling.classList.contains('card')).toBeTruthy();
+    expect(headerNextSibling.textContent).toBe(testErrorMessage);
+  });
+});
+
 test('saveCityToLocalStorage saves a city to localStorage', () => {
   // Исходное состояние localStorage
   const initialCities = getCitiesFromLocalStorage();

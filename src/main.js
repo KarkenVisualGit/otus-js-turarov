@@ -105,13 +105,13 @@ updateCityTable();
 
 export function removecard() {
     const prevcard = document.getElementsByClassName('card');
-    if (prevcard) prevcard[prevcard.length - 1].remove();
+    if (prevcard && prevcard.length > 1) prevcard[prevcard.length - 1].remove();
 }
 
 export function showError(errorNessage) {
     const html = `<div class="card">${errorNessage}</div>`;
 
-    header.insertAdjacentHTML('afterend', html);
+    if(header) header.insertAdjacentHTML('afterend', html);
 }
 
 export async function getWeather(city) {
