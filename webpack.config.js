@@ -87,6 +87,6 @@ module.exports = {
     open: true,
     port: 9000,
     hot: true,
-    allowedHosts: "*codesandbox.io*",
+    allowedHosts: "all",
   },
 };

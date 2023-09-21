@@ -1,10 +1,6 @@
 name: PR Sanity Check
 
-on:
-  push:
-    branches: ["weather-forecast"]
-  pull_request:
-    branches: ["weather-forecast"]
+on: pull_request
 
 jobs:
   lint:
