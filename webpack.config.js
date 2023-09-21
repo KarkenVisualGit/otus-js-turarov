@@ -32,11 +32,11 @@ module.exports = {
       {
         // browse to http://localhost:3000/ during development
         host: "localhost",
-        port: 3000,
+        port: 9000,
         // proxy the Webpack Dev Server endpoint
         // (which should be serving on http://localhost:3100/)
         // through BrowserSync
-        proxy: "http://localhost:9000/",
+        proxy: "http://localhost:9001/",
       },
       // plugin options
       {
@@ -85,7 +85,8 @@ module.exports = {
   devServer: {
     compress: false,
     open: true,
-    port: 3000,
+    port: 9000,
     hot: true,
+    allowedHosts: "*codesandbox.io*",
   },
 };
