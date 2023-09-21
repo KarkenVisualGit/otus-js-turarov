@@ -1,0 +1,89 @@
+// import {
+//     getCurrentLocationAndWeather,
+//     getCurrentLocation,
+//     getOpenWeather,
+//     getWeather,
+//     showCard,
+//     addCityClickListeners
+// } from '../src/main';
+
+// jest.mock('../src/main'); // Если вы мокаете другие экспортированные функции из этого файла
+
+// describe('getCurrentLocationAndWeather', () => {
+
+//     const mockGeolocation = {
+//         getCurrentPosition: jest.fn()
+//             .mockImplementation((success) => Promise.resolve(
+//                 success({
+//                     coords: {
+//                         latitude: 10,
+//                         longitude: 20
+//                     }
+//                 })
+//             ))
+//     };
+//     // мок функции getCurrentLocation
+//     const mockCurrentLocation = jest.fn();
+//     mockCurrentLocation.mockResolvedValue({ latitude: 10, longitude: 20 });
+//     const mockGetOpenWeather = jest.fn();
+//     mockGetOpenWeather.mockResolvedValue({
+//         name: "Test City"
+//     });
+//     const mockGetWeather = jest.fn();
+//     mockGetWeather.mockResolvedValue({
+//         location: {
+//             name: "Test City",
+//             country: "Test Country",
+//         },
+//         current: {
+//             temp_c: 25,
+//             is_day: true,
+//             condition: {
+//                 code: "test_code",
+//                 icon: "test_icon.png",
+//             },
+//         },
+//     });
+
+//     beforeEach(() => {
+//         global.fetch = jest.fn(() =>
+//             Promise.resolve({
+//                 json: () =>
+//                     Promise.resolve({
+//                         location: {
+//                             name: "Test City",
+//                             country: "Test Country",
+//                         },
+//                         current: {
+//                             temp_c: 25,
+//                             is_day: true,
+//                             condition: {
+//                                 code: "test_code",
+//                                 icon: "test_icon.png",
+//                             },
+//                         },
+//                     }),
+//             }),
+//         );
+
+//         global.navigator.geolocation = mockGeolocation;
+//         jest.clearAllMocks();
+//     });
+
+//     it('should call navigator.geolocation.getCurrentPosition', async () => {
+//         await getCurrentLocation();
+//         expect(mockGeolocation.getCurrentPosition).toHaveBeenCalledTimes(1);
+//     });
+
+//     it('should call necessary functions and fetch data correctly', async () => {
+//         await getCurrentLocationAndWeather();
+
+//         expect(mockCurrentLocation).toHaveBeenCalledTimes(1);
+//         expect(mockGetOpenWeather).toHaveBeenCalledTimes(1);
+//         expect(mockGetWeather).toHaveBeenCalledTimes(1);
+//         expect(showCard).toHaveBeenCalledTimes(1);
+//         expect(addCityClickListeners).toHaveBeenCalledTimes(1);
+//     });
+// });
+
+
