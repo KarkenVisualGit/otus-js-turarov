@@ -1,4 +1,4 @@
-const conditions = [
+export const conditions = [
   {
     code: 1000,
     day: "Sunny",

@@ -1,4 +1,4 @@
-import conditions from "../src/conditions.js";
+import { conditions } from "../src/conditions.js";
 
 test("find condition by code", () => {
   const code = 1000;

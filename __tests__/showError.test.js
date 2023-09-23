@@ -1,102 +1,38 @@
-// import * as Main from '../src/main';
-// jest.mock('../src/main', () => {
-//     return {
-//         showError: jest.fn()
-//     };
-// });
-// afterEach(() => {
-//     jest.clearAllMocks();
-// });
-// describe('showError', () => {
-//     // Setting up the DOM before each test
-//     beforeEach(() => {
-//         document.body.innerHTML = '<header class="header">Header</header>';
-//     });
+import { showError } from "../src/functions/showError.js";
 
-//     it('inserts an error message after the header', () => {
-//         expect(typeof Main.showError).toBe('function');
-//         expect(Main.showError).toBeInstanceOf(Function);
+describe("showError", () => {
+  // Имитация DOM-элемента
+  const mockHeader = {
+    insertAdjacentHTML: jest.fn(),
+  };
 
-//     });
-
-//     it('inserts an error message after the header', () => {
-//         // Act: Show an error message
-//         const testErrorMessage = 'Test Error';
-//         expect(typeof Main.showError).toBe('function');
-//         Main.showError(testErrorMessage);
-
-//         // Debug: Check the structure after attempting to show error
-//         console.log(document.body.innerHTML);
-
-//         // Assert: Ensure the error message has been correctly inserted
-//         const errorCard = document.querySelector('.card');
-//         expect(errorCard).toBeTruthy();
-// if (errorCard) {
-// expect(errorCard.textContent).toBe(testErrorMessage);
-// }
-
-//         // Assert: Ensure it is inserted after the header
-//         const headerNextSibling = document.querySelector('.header')
-//         .nextElementSibling;
-//         expect(headerNextSibling.classList.contains('card')).toBeTruthy();
-//         expect(headerNextSibling.textContent).toBe(testErrorMessage);
-//     });
-// });
-
-import { showCardByName } from "../src/main.js";
-
-jest.mock("../src/main", () => ({
-  showCardByName: jest.fn(),
-}));
-afterEach(() => {
-  jest.clearAllMocks();
-});
-describe("cityTable population", () => {
-  let cityTable;
-
-  beforeEach(() => {
-    // Initial Setup: Create a cityTable and append to document body
-    cityTable = document.createElement("table");
-    cityTable.innerHTML = "<tr><td>Initial Data</td></tr>";
-    document.body.appendChild(cityTable);
+  beforeAll(() => {
+    // Мокаем document.querySelector чтобы вернуть наш имитированный header
+    document.querySelector = jest.fn().mockReturnValue(mockHeader);
   });
 
   afterEach(() => {
-    // Clean up after each test
-    document.body.innerHTML = "";
+    // Очистка всех моков после каждого теста
     jest.clearAllMocks();
   });
 
-  it("populates the cityTable correctly and adds event listeners", () => {
-    const cities = ["City1", "City2"];
+  it("should insert an error message after the header", () => {
+    const errorMessage = "Test error message";
 
-    cityTable.innerHTML = "";
+    showError(errorMessage);
 
-    cities.forEach((city) => {
-      const tableRow = document.createElement("tr");
-      tableRow.innerHTML = `<td><a href="javascript:void(0);">${city}</a></td>`;
-      cityTable.appendChild(tableRow);
+    // Проверяем, что mockHeader.insertAdjacentHTML вызывается с правильными аргументами
+    expect(mockHeader.insertAdjacentHTML).toHaveBeenCalledWith(
+      "afterend",
+      `<div class="card">${errorMessage}</div>`,
+    );
+  });
 
-      // Adding click event listener
-      tableRow.addEventListener("click", () => {
-        showCardByName(city);
-      });
-    });
+  it("should not throw errors if header is not found", () => {
+    document.querySelector = jest.fn().mockReturnValue(null);
 
-    // Assert: Ensure the initial data was cleared
-    expect(cityTable.innerHTML).not.toContain("Initial Data");
+    const errorMessage = "Another test error message";
 
-    // Assert: Check if the cities were added correctly
-    const tableRows = cityTable.querySelectorAll("tr");
-    expect(tableRows).toHaveLength(cities.length);
-    expect(tableRows[0].textContent).toBe(cities[0]);
-    expect(tableRows[1].textContent).toBe(cities[1]);
-
-    // Assert: Check if clicking on a city calls showCardByName
-    tableRows[0].click();
-    expect(showCardByName).toHaveBeenCalledWith(cities[0]);
-
-    tableRows[1].click();
-    expect(showCardByName).toHaveBeenCalledWith(cities[1]);
+    expect(() => showError(errorMessage)).not.toThrow();
   });
 });

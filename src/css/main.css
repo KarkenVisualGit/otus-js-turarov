@@ -117,9 +117,19 @@ body {
 }
 
 .cityTable {
+  font-family: "Ubuntu";
+  font-weight: 500;
+  font-size: 25px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.link {
+  color: rgb(1, 23, 1);
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .card-city span {
