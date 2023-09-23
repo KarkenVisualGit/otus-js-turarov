@@ -1,4 +1,4 @@
-## [Codecov](https://app.codecov.io/gh/KarkenVisualGit/otus-js-turarov/pull/7?src=pr&el=h1&utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=Karken+Turarov) Report
+## [Codecov](https://app.codecov.io/gh/KarkenVisualGit/otus-js-turarov/tree/weather-forecast) Report
 
 > :exclamation: No coverage uploaded for pull request base (`main@a8c33d5`). [Click here to learn what that means](https://docs.codecov.io/docs/error-reference?utm_medium=referral&utm_source=github&utm_content=comment&utm_campaign=pr+comments&utm_term=Karken+Turarov#section-missing-base-commit).
 > The diff coverage is `n/a`.
@@ -6,30 +6,30 @@
 <details><summary>Additional details and impacted files</summary>
 
 ```diff
-@@           Coverage Diff           @@
-##             main       #7   +/-   ##
-=======================================
-  Coverage        ?   99.23%
-=======================================
-  Files           ?        2
-  Lines           ?    11888
-  Branches        ?       35
-=======================================
-  Hits            ?    11797
-  Misses          ?       91
-  Partials        ?        0
+@@           Coverage Diff            @@
+##             main        #7   +/-   ##
+========================================
+  Coverage        ?   100.00%
+========================================
+  Files           ?        14
+  Lines           ?     11869
+  Branches        ?        42
+========================================
+  Hits            ?     11869
+  Misses          ?         0
+  Partials        ?         0
 ```
 
 </details>
 
 # Приложение "Прогноз погоды" &middot; [![codecov](https://codecov.io/gh/KarkenVisualGit/otus-js-turarov/graph/badge.svg?token=KFEN18DUH2)](https://app.codecov.io/gh/KarkenVisualGit/otus-js-turarov/tree/weather-forecast)
 
-> Это приложение "Прогноз погоды", выполнено в рамках учебного проекта по изучению JavaScript. В данном приложении можно посмотреть текущий прогноз погоды в своей местности, а также запросить прогноз для любого города. Последние десять запросов сохраняются в истории запросов и позволяют получить доступ к прогнозу погоды для конкретного города повторно.
+> Это приложение "Прогноз погоды", выполнено в рамках учебного проекта по изучению JavaScript. В данном приложении можно посмотреть текущий прогноз погоды в своей местности, а также запросить прогноз для любого города. Последние десять запросов сохраняются в истории запросов и позволяют получить доступ к прогнозу погоды для конкретного города повторно. При открытии страницы необходимо дать разрешение на определение текущего местоположения пользователя для отображения погоды в городе.
 
 ## Структура проекта
 
 - index.js - входная точка проекта, здесь мы подключаем стили и основной модуль проекта main.js
-- main.js - файл, в которой объявлены все основные функции для отображения результатов вывода информации о погоде
+- main.js - файл, в которой импортированы все основные функции для отображения результатов вывода информации о погоде
 
   - removecard() - функция, которая удаляет предыдущие карточки погоды для отображения прогноза погоды текущего города
   - showError(errorNessage) - функция, которая выводит сообщение с ошибкой в случае неправильного ввода наименования города

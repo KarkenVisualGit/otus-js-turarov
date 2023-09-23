@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+// const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 module.exports = {
@@ -20,14 +20,14 @@ module.exports = {
       template: path.resolve(__dirname, "./src/index.html"), // шаблон
       filename: "index.html", // название выходного файла
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "./src/images"),
-          to: path.resolve(__dirname, "./dist/images"),
-        },
-      ],
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     {
+    //       from: path.resolve(__dirname, "./src/images"),
+    //       to: path.resolve(__dirname, "./dist/images"),
+    //     },
+    //   ],
+    // }),
     // new BrowserSyncPlugin(
     //   {
     //     // browse to http://localhost:3000/ during development
